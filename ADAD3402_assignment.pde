@@ -22,7 +22,7 @@ void draw() {
   noFill();
   stroke(255);
   
-  totaloffset = 0;
+  float localoffset = 0;
   PVector pos = curvePoints.get(0);
   for (int i = 1; i < curvePoints.size();  i++) {
     PVector newPos = curvePoints.get(i);
@@ -37,9 +37,9 @@ void draw() {
     
     for (float d = 0; d < dist; d += stepSize) {
       float enddist = min(min(d*d, (dist-d)*(dist-d)), 300);
-      curveVertex(d, enddist*noise((totaloffset + d + frameCount*2)*noiseScale) - enddist/2);
+      curveVertex(d, enddist*noise((totaloffset + localoffset + d + frameCount*1.4)*noiseScale) - enddist/2);
     }
-    totaloffset += dist;
+    localoffset += dist;
     curveVertex(dist, 0);
     curveVertex(dist, 0);
     endShape();
@@ -54,4 +54,9 @@ void draw() {
 
 void mouseClicked(){
   curvePoints.add(new PVector(mouseX, mouseY));
+  if (curvePoints.size() > 5) {
+    float dist = curvePoints.get(0).dist(curvePoints.get(1));
+    totaloffset += dist;
+    curvePoints.remove(0); 
+  }
 }
