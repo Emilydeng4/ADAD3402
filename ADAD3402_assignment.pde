@@ -3,7 +3,7 @@ PImage img, backimg;
 ArrayList<PVector> curvePoints = new ArrayList<PVector>();
 
 void setup() {
-  fullScreen();
+  fullScreen(P2D);
   pixelDensity(displayDensity());
   background(0);
   curvePoints.add(new PVector(100, 100));
