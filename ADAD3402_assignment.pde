@@ -32,7 +32,7 @@ void draw() {
     
     for (float d = 0; d < dist; d += stepSize) {
       float enddist = min(min(d*d, (dist-d)*(dist-d)), 300);
-      curveVertex(d, enddist*noise((totaloffset + d)*noiseScale, frameCount*noiseScale) - enddist/2);
+      curveVertex(d, enddist*noise((totaloffset + d + frameCount)*noiseScale) - enddist/2);
     }
     totaloffset += dist;
     curveVertex(dist, 0);
