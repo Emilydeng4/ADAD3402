@@ -1,13 +1,12 @@
 float noiseScale = 0.01, stepSize = 5, totaloffset = 0;
 PImage img, backimg;
 ArrayList<PVector> curvePoints = new ArrayList<PVector>();
+int timeout = 1000*10, lastAction = -timeout*2;
 
 void setup() {
   fullScreen(P2D);
   pixelDensity(displayDensity());
   background(0);
-  curvePoints.add(new PVector(100, 100));
-  curvePoints.add(new PVector(100, 100));
   
   img = loadImage("lildude.png");
   backimg = loadImage("sydmap2.png");
@@ -18,6 +17,13 @@ void setup() {
 void draw() {
   tint(255, 30);
   image(backimg, 0, 0, width, height);
+  if (millis() - lastAction > timeout) {
+    curvePoints.clear();
+    textSize(30);
+    textAlign(CENTER);
+    text("Click to move Emily around", width/2, height/2);
+    return;
+  }
   noStroke();
   noFill();
   stroke(255);
@@ -53,6 +59,7 @@ void draw() {
 }
 
 void mouseClicked(){
+  lastAction = millis();
   curvePoints.add(new PVector(mouseX, mouseY));
   if (curvePoints.size() > 5) {
     float dist = curvePoints.get(0).dist(curvePoints.get(1));
