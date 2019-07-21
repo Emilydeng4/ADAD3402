@@ -1,5 +1,5 @@
 float noiseScale = 0.01, stepSize = 5, totaloffset = 0;
-
+PImage img, backimg;
 ArrayList<PVector> curvePoints = new ArrayList<PVector>();
 
 void setup() {
@@ -8,12 +8,17 @@ void setup() {
   background(0);
   curvePoints.add(new PVector(100, 100));
   curvePoints.add(new PVector(100, 100));
+  
+  img = loadImage("lildude.png");
+  backimg = loadImage("sydmap2.png");
+  
+  image(backimg, 0, 0, width, height);
 }
 
 void draw() {
-  fill(0, 30);
+  tint(255, 30);
+  image(backimg, 0, 0, width, height);
   noStroke();
-  rect(0, 0, width, height);
   noFill();
   stroke(255);
   
@@ -32,7 +37,7 @@ void draw() {
     
     for (float d = 0; d < dist; d += stepSize) {
       float enddist = min(min(d*d, (dist-d)*(dist-d)), 300);
-      curveVertex(d, enddist*noise((totaloffset + d + frameCount)*noiseScale) - enddist/2);
+      curveVertex(d, enddist*noise((totaloffset + d + frameCount*2)*noiseScale) - enddist/2);
     }
     totaloffset += dist;
     curveVertex(dist, 0);
@@ -43,6 +48,8 @@ void draw() {
     pos = newPos;
   }
   
+  tint(255, 255);
+  image(img, pos.x-30, pos.y-60, 61.8, 125.4);
 }
 
 void mouseClicked(){
