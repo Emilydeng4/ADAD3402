@@ -27,9 +27,9 @@ void draw() {
   
   PVector lastPoint = curvePoints.get(curvePoints.size()-1);
   int lastQuadrant = 1;
-  if (width/3 >= lastPoint.x && lastPoint.x < 2*width/3) {
+  if (width/3 <= lastPoint.x && lastPoint.x < 2*width/3) {
     lastQuadrant = 2;
-  } else if (width/3 >= lastPoint.x) {
+  } else if (2*width/3 <= lastPoint.x) {
     lastQuadrant = 3;
   }
   if (lastPoint.y >= height/2) {
@@ -39,6 +39,17 @@ void draw() {
   noStroke();
   noFill();
   stroke(255);
+  
+  if (lastQuadrant == 1) {
+    totaloffset += 1; 
+  }
+  
+  if (lastQuadrant == 2) {
+    noiseScale = 0.02; 
+  } else {
+    noiseScale = 0.01; 
+  }
+  
   float localoffset = 0;
   PVector pos = curvePoints.get(0);
   for (int i = 1; i < curvePoints.size();  i++) {
