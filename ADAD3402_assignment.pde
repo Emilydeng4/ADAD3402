@@ -1,5 +1,5 @@
 float noiseScale = 0.01, stepSize = 5, totaloffset = 0, curveScale = 1;
-PImage img, backimg;
+PImage img, backimg, nobuildimg;
 ArrayList<PVector> curvePoints = new ArrayList<PVector>();
 int timeout = 1000*10, lastAction = -timeout*2;
 
@@ -9,21 +9,23 @@ void setup() {
   background(0);
   
   img = loadImage("lildude.png");
-  backimg = loadImage("sydmap2.png");
+  backimg = loadImage("sydmap3.png");
+  nobuildimg = loadImage("sydmap2.png");
   
-  image(backimg, 0, 0, width, height);
+  image(nobuildimg, 0, 0, width, height);
 }
 
 void draw() {
   tint(255, 30);
-  image(backimg, 0, 0, width, height);
   if (millis() - lastAction > timeout) {
+    image(nobuildimg, 0, 0, width, height);
     curvePoints.clear();
     textSize(30);
     textAlign(CENTER);
     text("Click to move Emily around", width/2, height/2);
     return;
   }
+  image(backimg, 0, 0, width, height);
   
   PVector lastPoint = curvePoints.get(curvePoints.size()-1);
   int lastQuadrant = 1;
