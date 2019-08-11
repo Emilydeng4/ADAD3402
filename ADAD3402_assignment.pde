@@ -1,4 +1,4 @@
-float noiseScale = 0.01, stepSize = 5, totaloffset = 0;
+float noiseScale = 0.01, stepSize = 5, totaloffset = 0, curveScale = 1;
 PImage img, backimg;
 ArrayList<PVector> curvePoints = new ArrayList<PVector>();
 int timeout = 1000*10, lastAction = -timeout*2;
@@ -38,16 +38,22 @@ void draw() {
   
   noStroke();
   noFill();
-  stroke(255);
+  if (lastQuadrant % 2 == 1) {
+    colorMode(HSB, 100);
+    stroke(frameCount*0.3 %100, 100, 100);
+    colorMode(RGB, 255);
+  } else {
+    stroke(255);
+  }
   
   if (lastQuadrant == 1) {
     totaloffset += 1; 
   }
   
   if (lastQuadrant == 2) {
-    noiseScale = 0.02; 
+    curveScale = 1.8; 
   } else {
-    noiseScale = 0.01; 
+    curveScale = 1; 
   }
   
   float localoffset = 0;
@@ -64,7 +70,7 @@ void draw() {
     curveVertex(0, 0);
     
     for (float d = 0; d < dist; d += stepSize) {
-      float enddist = min(min(d*d, (dist-d)*(dist-d)), 300);
+      float enddist = min(min(d*d, (dist-d)*(dist-d)), 300)*curveScale;
       curveVertex(d, enddist*noise((totaloffset + localoffset + d + frameCount*1.4)*noiseScale) - enddist/2);
     }
     localoffset += dist;
@@ -76,8 +82,25 @@ void draw() {
     pos = newPos;
   }
   
-  tint(255, 255);
-  image(img, pos.x-30, pos.y-60, 61.8, 125.4);
+  if (lastQuadrant == 4) {
+    colorMode(HSB, 100);
+    tint(frameCount*0.3 %100, 100, 100);
+    colorMode(RGB, 255);
+  } else { 
+    tint(255, 255);
+  }
+  
+  float imgscale = 1;
+  if (lastQuadrant == 5) {
+    imgscale =1-(millis()*1.0-lastAction)/timeout;
+  }
+  pushMatrix();
+  translate(pos.x, pos.y);
+  if (lastQuadrant == 6) {
+    rotate(frameCount*0.04);
+  }
+  image(img, -30*imgscale, -60*imgscale, 61.8*imgscale, 125.4*imgscale);
+  popMatrix();
 }
 
 void mouseClicked(){
