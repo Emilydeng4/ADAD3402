@@ -24,10 +24,21 @@ void draw() {
     text("Click to move Emily around", width/2, height/2);
     return;
   }
+  
+  PVector lastPoint = curvePoints.get(curvePoints.size()-1);
+  int lastQuadrant = 1;
+  if (width/3 >= lastPoint.x && lastPoint.x < 2*width/3) {
+    lastQuadrant = 2;
+  } else if (width/3 >= lastPoint.x) {
+    lastQuadrant = 3;
+  }
+  if (lastPoint.y >= height/2) {
+    lastQuadrant += 3; 
+  }
+  
   noStroke();
   noFill();
   stroke(255);
-  
   float localoffset = 0;
   PVector pos = curvePoints.get(0);
   for (int i = 1; i < curvePoints.size();  i++) {
