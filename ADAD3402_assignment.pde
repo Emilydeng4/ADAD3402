@@ -67,13 +67,16 @@ void draw() {
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(atan2(delta.y, delta.x));
-  
+    strokeWeight(5);
+    circle(0, 0, 10);
+    strokeWeight(1);
     beginShape();  
     curveVertex(0, 0);
     
     for (float d = 0; d < dist; d += stepSize) {
       float enddist = min(min(d*d, (dist-d)*(dist-d)), 300)*curveScale;
       curveVertex(d, enddist*noise((totaloffset + localoffset + d + frameCount*1.4)*noiseScale) - enddist/2);
+      
     }
     localoffset += dist;
     curveVertex(dist, 0);
